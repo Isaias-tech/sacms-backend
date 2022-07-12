@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  sacms_backend:
+    container_name: sacms_backend
+    image: sacms_backend_image
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8002:3000"
+    volumes:
+      - .:/app
+      - exclude:/app/node_modules/
+    command: npm run start:dev
+
+volumes:
+  exclude:
