@@ -1,0 +1,17 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Deploy-to-VPS:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: Stop and delete container
+        run: docker stop sacms_backend
+      - run: docker rm -f sacms_backend
+      - name: Delete image
+        run: docker rmi -f sacms_backend_image
+      - name: Exec container
+        run: docker run --name sacms_backend -d -p "8002:3000" --restart always sacms_backend_image
